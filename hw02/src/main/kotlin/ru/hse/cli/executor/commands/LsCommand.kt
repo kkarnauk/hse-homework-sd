@@ -1,5 +1,6 @@
 package ru.hse.cli.executor.commands
 
+import ru.hse.cli.Environment
 import ru.hse.cli.executor.IOEnvironment
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -26,13 +27,13 @@ class LsCommand : AbstractCommand {
             ioEnvironment.errorStream.write("ls: too many arguments (1 or 0 expected)".toByteArray())
             return 2
         }
-        val path = Paths.get(System.getProperty("user.dir")).tryResolve(args.firstOrNull())
+        val path = Environment.workingDirectory.tryResolve(args.firstOrNull())
         if (!path.isDirectory() && !path.isRegularFile()) {
             ioEnvironment.errorStream.write("ls: ${args[0]} is not a directory".toByteArray())
             return 1
         }
         val contents = if (path.isDirectory()) {
-            path.listDirectoryEntries().joinToString(separator = " ")
+            path.listDirectoryEntries().map { it.fileName }.sorted().joinToString(separator = " ")
         } else {
             args[0]
         }
