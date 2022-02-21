@@ -4,6 +4,7 @@ import ru.hse.cli.executor.IOEnvironment
 import java.nio.file.Path
 import java.nio.file.Paths
 import kotlin.io.path.isDirectory
+import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
 
 /**
@@ -25,12 +26,16 @@ class LsCommand : AbstractCommand {
             ioEnvironment.errorStream.write("ls: too many arguments (1 or 0 expected)".toByteArray())
             return 2
         }
-        val directory = Paths.get(System.getProperty("user.dir")).tryResolve(args.firstOrNull())
-        if (!directory.isDirectory()) {
+        val path = Paths.get(System.getProperty("user.dir")).tryResolve(args.firstOrNull())
+        if (!path.isDirectory() && !path.isRegularFile()) {
             ioEnvironment.errorStream.write("ls: ${args[0]} is not a directory".toByteArray())
             return 1
         }
-        val contents = directory.listDirectoryEntries().joinToString(separator = " ")
+        val contents = if (path.isDirectory()) {
+            path.listDirectoryEntries().joinToString(separator = " ")
+        } else {
+            args[0]
+        }
         ioEnvironment.outputStream.write(contents.toByteArray())
         return 0
     }
