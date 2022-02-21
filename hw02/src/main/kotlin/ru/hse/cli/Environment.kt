@@ -32,9 +32,14 @@ object Environment {
      * if [path] is null nothing will be done
      * @param path
      */
-    fun resolveDirectory(path: Path?) {
-        if (path != null) {
-            workingDirectory = workingDirectory.resolve(path)
-        }
+    fun resolveDirectory(path: Path) {
+        workingDirectory = workingDirectory.resolve(path)
+    }
+
+    /**
+     * resets working directory: sets to initial directory
+     */
+    fun resetDirectory() {
+        workingDirectory = Paths.get(System.getProperty("user.dir"))
     }
 }

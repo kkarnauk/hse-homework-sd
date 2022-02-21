@@ -23,7 +23,7 @@ internal class PwdCommandTest: BaseExecutorTest() {
     @Test
     fun testExecuteOutput() {
         val pwdCommand = PwdCommand()
-        val expected = Environment.workingDirectory
+        val expected = Environment.workingDirectory.toString()
         val inputStream = ByteArrayInputStream(ByteArray(0))
         val outputStream = ByteArrayOutputStream()
         val errorStream = ByteArrayOutputStream()
