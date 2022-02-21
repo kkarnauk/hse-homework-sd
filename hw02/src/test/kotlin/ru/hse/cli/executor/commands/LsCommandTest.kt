@@ -16,7 +16,7 @@ internal class LsCommandTest : BaseExecutorTest() {
         File(dir, "file1").createNewFile()
         File(dir, "file2").createNewFile()
         val subdir = File(dir, "subdir").also { it.mkdir() }
-        File(subdir, "file3")
+        File(subdir, "file3").createNewFile()
 
         val lsCommand = LsCommand()
         val inputStream = ByteArrayInputStream(ByteArray(0))
