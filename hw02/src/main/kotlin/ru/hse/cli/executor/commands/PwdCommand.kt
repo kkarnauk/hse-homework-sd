@@ -1,5 +1,6 @@
 package ru.hse.cli.executor.commands
 
+import ru.hse.cli.Environment
 import ru.hse.cli.executor.IOEnvironment
 
 /**
@@ -13,7 +14,7 @@ class PwdCommand: AbstractCommand {
      * @return 0 as a mark that execution was successful.
      */
     override fun execute(args: List<String>, ioEnvironment: IOEnvironment): Int {
-        val path = System.getProperty("user.dir")
+        val path = Environment.workingDirectory.toString()
         ioEnvironment.inputStream.reset()
         ioEnvironment.outputStream.write(path.toByteArray())
 
