@@ -14,7 +14,8 @@ object CommandStorage {
         "pwd" to PwdCommand(),
         "assignment" to AssignmentCommand(),
         "grep" to GrepCommand(),
-        "ls" to LsCommand()
+        "ls" to LsCommand(),
+        "cd" to CdCommand()
     )
 
     /**
