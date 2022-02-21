@@ -48,6 +48,12 @@ class ParserTest {
     fun testPipeAndAssignment() = doTest("echo a | b = a | wc", listOf(Command("echo", listOf("a")),
         Command("assignment", listOf("b", "a")), Command("wc")))
 
+    @Test
+    fun testLs() = doTest("ls", listOf(Command("ls", emptyList())))
+
+    @Test
+    fun testLsSingleArgument() = doTest("ls name", listOf(Command("ls", listOf("name"))))
+
     private fun doTest(input: String, expectedCommands: List<Command>) {
         val parser = ParserImpl(input)
 
