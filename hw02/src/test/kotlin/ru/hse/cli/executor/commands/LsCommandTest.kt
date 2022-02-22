@@ -1,6 +1,7 @@
 package ru.hse.cli.executor.commands
 
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import ru.hse.cli.Environment
 import ru.hse.cli.executor.BaseExecutorTest
@@ -11,6 +12,11 @@ import java.io.File
 import kotlin.io.path.createTempDirectory
 
 internal class LsCommandTest : BaseExecutorTest() {
+
+    @BeforeEach
+    fun resetEnvironment() {
+        Environment.resetDirectory()
+    }
 
     private fun runInTestDirectory(arguments: List<String>): IOEnvironment {
         val dir = createTempDirectory().toFile()
@@ -53,14 +59,14 @@ internal class LsCommandTest : BaseExecutorTest() {
     fun executeFailureFileNotExist() {
         val ioEnvironment = runInTestDirectory(listOf("fake"))
         assertEquals("", ioEnvironment.output)
-        assertEquals(listOf("TODO"), ioEnvironment.errorStream.toString().lines())
+        assertEquals(listOf("ls: cannot find file or directory fake"), ioEnvironment.errorStream.toString().lines())
     }
 
     @Test
     fun executeFailureToManyArgs() {
         val ioEnvironment = runInTestDirectory(listOf("file1", "file2"))
         assertEquals("", ioEnvironment.output)
-        assertEquals(listOf("TODO"), ioEnvironment.errorStream.toString().lines())
+        assertEquals(listOf("ls: too many arguments (1 or 0 expected)"), ioEnvironment.errorStream.toString().lines())
     }
 
     private val IOEnvironment.outputWords get() = output.split(' ')

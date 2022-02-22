@@ -3,7 +3,6 @@ package ru.hse.cli.executor.commands
 import ru.hse.cli.Environment
 import ru.hse.cli.executor.IOEnvironment
 import java.nio.file.Path
-import java.nio.file.Paths
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
@@ -29,7 +28,7 @@ class LsCommand : AbstractCommand {
         }
         val path = Environment.workingDirectory.tryResolve(args.firstOrNull())
         if (!path.isDirectory() && !path.isRegularFile()) {
-            ioEnvironment.errorStream.write("ls: ${args[0]} is not a directory".toByteArray())
+            ioEnvironment.errorStream.write("ls: cannot find file or directory ${args[0]}".toByteArray())
             return 1
         }
         val contents = if (path.isDirectory()) {

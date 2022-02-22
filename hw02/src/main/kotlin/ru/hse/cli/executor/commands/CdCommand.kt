@@ -3,6 +3,7 @@ package ru.hse.cli.executor.commands
 import ru.hse.cli.Environment
 import ru.hse.cli.executor.IOEnvironment
 import java.nio.file.Path
+import kotlin.io.path.isDirectory
 
 /**
  * Represents the command [cd] which changes working directory.
@@ -20,7 +21,13 @@ class CdCommand : AbstractCommand {
     override fun execute(args: List<String>, ioEnvironment: IOEnvironment): Int {
         return when (args.size) {
             0 -> Environment.resetDirectory().let { 0 }
-            1 -> Environment.resolveDirectory(Path.of(args[0])).let { 0 }
+            1 -> {
+                val path = Environment.workingDirectory.resolve(Path.of(args[0]))
+                return if (path.isDirectory())
+                    Environment.resolveDirectory(path).let { 0 }
+                else
+                    ioEnvironment.errorStream.write("cd: cannot find directory ${args[0]}".toByteArray()).let { 1 }
+            }
             else -> ioEnvironment.errorStream.write("cd: too many arguments".toByteArray()).let { 1 }
         }
     }

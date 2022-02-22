@@ -85,7 +85,6 @@ class GrepCommand : AbstractCommand {
         }
 
         if (grepParser.wordRegexp) {
-            print(needle.pattern)
             needle = "\\b${needle.pattern}\\b".toRegex()
             matchResults = matchResults.filter {
                 needle.find(if (grepParser.ignoreCase) it.lowercase(Locale.getDefault()) else it) != null
@@ -107,7 +106,6 @@ class GrepCommand : AbstractCommand {
             }
 
             val processedIndex = processSegments(segments)
-            print(processedIndex)
             matchResults = content.filterIndexed {index, str -> index in processedIndex}.toMutableList()
         }
 
