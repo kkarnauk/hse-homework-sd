@@ -2,7 +2,6 @@ package ru.hse.cli.executor.commands
 
 import ru.hse.cli.Environment
 import ru.hse.cli.executor.IOEnvironment
-import java.nio.file.Path
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.listDirectoryEntries
@@ -26,7 +25,12 @@ class LsCommand : AbstractCommand {
             ioEnvironment.errorStream.write("ls: too many arguments (1 or 0 expected)".toByteArray())
             return 2
         }
-        val path = Environment.workingDirectory.tryResolve(args.firstOrNull())
+        val path = if (args.isEmpty()) {
+            Environment.workingDirectory
+        } else {
+            Environment.workingDirectory.resolve(args.first())
+        }
+
         if (!path.isDirectory() && !path.isRegularFile()) {
             ioEnvironment.errorStream.write("ls: cannot find file or directory ${args[0]}".toByteArray())
             return 1
@@ -40,5 +44,4 @@ class LsCommand : AbstractCommand {
         return 0
     }
 
-    private fun Path.tryResolve(other: String?) = other?.let { resolve(it) } ?: this
 }
