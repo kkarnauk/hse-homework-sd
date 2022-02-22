@@ -52,7 +52,13 @@ class ParserTest {
     fun testLs() = doTest("ls", listOf(Command("ls", emptyList())))
 
     @Test
-    fun testLsSingleArgument() = doTest("ls name", listOf(Command("ls", listOf("name"))))
+    fun testLsArgument() = doTest("ls name", listOf(Command("ls", listOf("name"))))
+
+    @Test
+    fun testCd() = doTest("cd", listOf(Command("cd", emptyList())))
+
+    @Test
+    fun testCdArgument() = doTest("cd name", listOf(Command("cd", listOf("name"))))
 
     private fun doTest(input: String, expectedCommands: List<Command>) {
         val parser = ParserImpl(input)
