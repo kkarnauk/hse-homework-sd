@@ -4,7 +4,6 @@ on:
   push:
     branches: [ HW02 ]
   pull_request:
-    types: [ opened ]
     branches: [ HW02, HW04 ]
 
 jobs:
