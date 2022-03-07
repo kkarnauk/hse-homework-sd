@@ -2,10 +2,9 @@ name: Gradle CI
 
 on:
   push:
-    branches: [ HW02 ]
+    branches: [ HW02, HW04 ]
   pull_request:
-    types: [ opened ]
-    branches: [ HW02 ]
+    branches: [ HW02, HW04 ]
 
 jobs:
   gradle:

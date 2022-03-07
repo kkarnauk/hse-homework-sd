@@ -28,6 +28,8 @@ class ExternalCommand : AbstractCommand {
             env[variable] = value
         }
 
+        processBuilder.directory(Environment.workingDirectory.toFile())
+
         val process: Process =
             try {
                 processBuilder.start()
